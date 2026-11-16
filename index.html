@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0d2523">
+  <meta name="description" content="FlowGrove's fictional, transparent demonstration of safe, review-only product spreadsheet QA. See issues before importing a supplier catalogue.">
+  <title>Catalogue QA Demo | FlowGrove</title>
+  <style>
+    :root {color-scheme:light;--ink:#0d2523;--muted:#526965;--mint:#dcf5e8;--leaf:#23724f;--paper:#f5f8f5;--line:#dce6e0;--white:#fff;--amber:#a85a00;--rose:#a14e4e}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.55}
+    a{color:inherit}a:focus-visible,button:focus-visible{outline:3px solid #3f9c77;outline-offset:3px}
+    .wrap{max-width:1130px;margin:auto;padding:0 28px}.top{background:var(--ink);color:var(--white)}.nav{display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:76px}
+    .brand{font-weight:800;font-size:1.25rem;text-decoration:none;letter-spacing:-.03em;display:flex;gap:12px;align-items:center}.mark{display:inline-grid;place-items:center;background:#b7f0ce;color:#165b43;border-radius:15px;width:37px;height:37px;font-size:21px}
+    .navlinks{display:flex;gap:22px;align-items:center;font-size:.91rem}.navlinks a{text-decoration:none;color:#e4f0e8}.navlinks a:hover{text-decoration:underline}
+    .hero{padding:76px 0 74px;background:radial-gradient(ellipse at 80% 17%,#dff6e8 0,transparent 45%),#f4f8f4}
+    .eyebrow{text-transform:uppercase;letter-spacing:.13em;font-size:.76rem;font-weight:800;color:var(--leaf);display:inline-block;margin-bottom:17px}
+    h1{font-size:clamp(2.4rem,5vw,4.5rem);letter-spacing:-.06em;line-height:1.07;margin:0 0 24px;max-width:850px}h2{font-size:clamp(1.6rem,3vw,2.2rem);letter-spacing:-.035em;line-height:1.15;margin:0 0 14px}h3{margin:0 0 6px;font-size:1.1rem}
+    .lede{color:var(--muted);font-size:1.18rem;max-width:730px;margin:0 0 28px}
+    .pills{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 34px}.pill{background:#e2f3e9;border:1px solid #bfe4cc;border-radius:100px;padding:7px 13px;font-size:.78rem;font-weight:700;color:#235c45}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 20px;border-radius:11px;background:var(--leaf);border:1px solid var(--leaf);color:#fff;text-decoration:none;font-weight:750;font-size:.94rem;transition:transform .15s ease,background .15s ease}
+    .btn:hover{transform:translateY(-2px);background:#195a3e}.btn.secondary{background:transparent;color:var(--ink);border-color:#aec6bb}.btn.secondary:hover{background:#ebf2ec}
+    .cta{display:flex;gap:12px;flex-wrap:wrap}.labelnote{font-size:.86rem;color:var(--muted);margin:16px 0 0}
+    .section{padding:65px 0}.section .intro{color:var(--muted);max-width:720px;margin:0 0 24px}
+    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:24px 0 0}.stat{background:white;border:1px solid var(--line);border-radius:14px;padding:22px}.stat strong{font-size:1.6rem;display:block;letter-spacing:-.045em}.stat span{font-size:.85rem;color:var(--muted)}
+    .demo-panel{background:var(--white);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 12px 42px #1b4b3920}
+    .paneltop{padding:25px 28px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+    .paneltop p{margin:6px 0 0;color:var(--muted);font-size:.92rem}.switch{display:inline-flex;gap:4px;background:#edf3ef;padding:4px;border-radius:11px;flex-wrap:wrap}
+    .switch button{border:0;background:transparent;color:var(--ink);font:inherit;font-size:.84rem;font-weight:700;border-radius:8px;padding:9px 13px;cursor:pointer}.switch button[aria-selected="true"]{background:white;box-shadow:0 2px 8px #1d3d2920}
+    .scroll{overflow-x:auto}.data{border-collapse:collapse;width:100%;min-width:760px;text-align:left;font-size:.85rem}.data th{background:#f0f5f1;text-transform:uppercase;letter-spacing:.04em;font-size:.72rem;color:var(--muted)}
+    .data th,.data td{border-bottom:1px solid #eaf0ed;padding:14px 19px;vertical-align:top}.data tr:last-child td{border-bottom:0}.data td:first-child{font-weight:750;white-space:nowrap}.data .muted{color:#678078}
+    .flag{font-size:.73rem;font-weight:700;display:inline-block;padding:4px 7px;border-radius:6px;background:#fff2dc;color:#82500d;white-space:nowrap}.flag.clean{background:#e3f5ea;color:#236346}.flag.review{background:#f9eeee;color:#a24444}
+    .panelbottom{background:#fafcfb;border-top:1px solid var(--line);padding:18px 28px;font-size:.86rem;color:var(--muted)}
+    .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.card{border:1px solid var(--line);border-radius:16px;background:white;padding:25px}.icon{font-size:1.5rem;background:var(--mint);display:inline-grid;place-items:center;width:48px;height:48px;border-radius:14px;margin-bottom:15px}
+    .card p,.bullet p{margin:0;color:var(--muted);font-size:.94rem}.issuegrid{display:grid;grid-template-columns:repeat(2,1fr);gap:15px}.bullet{background:white;padding:18px;border-radius:13px;border:1px solid var(--line)}.tag{color:var(--amber);font-size:.8rem;font-weight:800;letter-spacing:.04em}
+    .pricebox{background:var(--ink);border-radius:19px;color:#fff;padding:34px 35px;display:grid;grid-template-columns:1.25fr 1fr;gap:32px;align-items:center}.pricebox h2{color:#fff}.pricebox p{color:#cadfd6}.price{font-size:2.7rem;font-weight:850;letter-spacing:-.04em;line-height:1.2}.price small{font-size:.9rem;font-weight:500;color:#d4e7de}.included{padding:0;margin:12px 0 0;list-style:none}.included li{margin-bottom:8px;font-size:.88rem}.included li:before{content:"✓";color:#94ddb6;margin-right:9px}
+    .pricebox .btn{background:#c0eed3;border-color:#c0eed3;color:#133c29}.pricebox .btn:hover{background:#a6e5c0}
+    footer{border-top:1px solid var(--line);padding:35px 0 45px;color:var(--muted);font-size:.85rem}.footerline{display:flex;gap:16px;justify-content:space-between;flex-wrap:wrap}footer a{color:var(--leaf)}
+    @media(max-width:750px){.wrap{padding:0 18px}.hero{padding:48px 0}.section{padding:45px 0}.nav{min-height:65px}.navlinks{gap:13px}.navlinks a:first-child{display:none}.stats,.cards,.issuegrid,.pricebox{grid-template-columns:1fr}.stat{padding:18px}.paneltop{padding:20px}.panelbottom{padding:15px}.pricebox{padding:25px}.lede{font-size:1.04rem}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn{transition:none}}
+  </style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap nav">
+    <a class="brand" href="https://flowgrove.carrd.co/" aria-label="FlowGrove website"><span class="mark" aria-hidden="true">✳</span> FlowGrove</a>
+    <nav class="navlinks" aria-label="Main navigation"><a href="#example">Interactive example</a><a href="#process">Our process</a><a href="#offer">Pilot details</a></nav>
+  </div>
+</header>
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <span class="eyebrow">Product spreadsheet quality checks</span>
+      <h1>Catch catalogue issues <em>before</em> they reach your store.</h1>
+      <p class="lede">A simple, review-only QA service for the product information suppliers send you. We identify inconsistencies, preserve identifiers and show you exactly what needs a decision.</p>
+      <div class="pills">
+        <span class="pill">Excel / CSV review</span><span class="pill">Original file preserved</span><span class="pill">No store permissions needed</span>
+      </div>
+      <div class="cta"><a class="btn" href="https://tally.so/r/DqpKGX" target="_blank" rel="noopener noreferrer">Discuss a 20-row pilot ↗</a><a class="btn secondary" href="#example">Explore fictional example ↓</a></div>
+      <p class="labelnote"><strong>Transparent demo:</strong> Every product and issue below is fictional. This is not a client case study or proof of sales results.</p>
+    </div>
+  </section>
+  <section class="wrap" aria-label="Pilot scope overview">
+    <div class="stats">
+      <div class="stat"><strong>20 rows</strong><span>Simple products in the introductory pilot</span></div>
+      <div class="stat"><strong>1 revision</strong><span>To agreed, buyer-approved changes</span></div>
+      <div class="stat"><strong>0 store edits</strong><span>Only source-file review; buyer controls imports</span></div>
+    </div>
+  </section>
+  <section class="section" id="example">
+    <div class="wrap">
+      <span class="eyebrow">Interactive demonstration · fictional records</span>
+      <h2>Explore an actual-looking review</h2>
+      <p class="intro">Switch between an intentionally messy supplier extract and the proposed review sheet. This is a <strong>synthetic example</strong>: all cleanup rules shown as applied here are assumed approved by a fictional buyer for demonstration only.</p>
+      <div class="demo-panel">
+        <div class="paneltop">
+          <div><h3 id="viewtitle">Supplier file — before review</h3><p id="viewdesc">Unchanged, fictional input values. Problem records are flagged.</p></div>
+          <div class="switch" role="tablist" aria-label="Example data view">
+            <button type="button" role="tab" aria-selected="true" aria-controls="datatable" id="beforeTab">Supplier original</button>
+            <button type="button" role="tab" aria-selected="false" aria-controls="datatable" id="afterTab">Proposed review</button>
+          </div>
+        </div>
+        <div class="scroll"><table class="data" id="datatable" aria-label="Fictional catalogue review table"><thead><tr><th scope="col">SKU</th><th scope="col">Product title</th><th scope="col">Category</th><th scope="col">Price</th><th scope="col">Review status</th></tr></thead><tbody id="rows"></tbody></table></div>
+        <div class="panelbottom" id="viewnote">Note: different SKUs are not duplicates just because the titles resemble each other.</div>
+      </div>
+    </div>
+  </section>
+  <section class="section" style="padding-top:16px">
+    <div class="wrap">
+      <span class="eyebrow">What our review highlights</span>
+      <h2>A decision log, not a guessing machine</h2>
+      <div class="issuegrid">
+        <div class="bullet"><div class="tag">FLAG · POSSIBLE DUPLICATE</div><h3>Repeated product identifier</h3><p>SKU BL-204 appears twice. We do not automatically delete either row: variants and business rules need confirmation.</p></div>
+        <div class="bullet"><div class="tag">FLAG · MISSING FIELD</div><h3>Unassigned category</h3><p>The fictional vase's category is blank. A source or buyer-provided mapping is needed before filling it.</p></div>
+        <div class="bullet"><div class="tag">APPROVED RULE · EXAMPLE ONLY</div><h3>Inconsistent category spelling</h3><p>For illustration, "mug" becomes "Mugs" and "Homewares" becomes "Homeware" only under assumed fictional approval.</p></div>
+        <div class="bullet"><div class="tag">PRESERVE · SOURCE DATA</div><h3>Identifiers and prices stay intact</h3><p>We preserve each source SKU and price exactly as supplied. Missing specifications aren't invented.</p></div>
+      </div>
+    </div>
+  </section>
+  <section class="section" id="process">
+    <div class="wrap">
+      <span class="eyebrow">How FlowGrove works</span>
+      <h2>One narrow, auditable workflow</h2>
+      <div class="cards">
+        <article class="card"><span class="icon" aria-hidden="true">📄</span><h3>1. Supply an authorized file</h3><p>You provide an Excel or CSV extract, the required columns and relevant naming rules. Redact personal or sensitive information.</p></article>
+        <article class="card"><span class="icon" aria-hidden="true">🔎</span><h3>2. Review issues first</h3><p>We look for missing fields, inconsistent conventions and likely duplicate identifiers. Uncertain choices go to you.</p></article>
+        <article class="card"><span class="icon" aria-hidden="true">✅</span><h3>3. Receive an audit trail</h3><p>You get a review workbook, issues report and change log. Only authorized edits are included; no changes to a live storefront.</p></article>
+      </div>
+    </div>
+  </section>
+  <section class="section" id="offer">
+    <div class="wrap">
+      <div class="pricebox">
+        <div><span class="eyebrow" style="color:#afe9c5">Introductory paid pilot</span><h2>Start small. Check the fit.</h2><p>For independent retailers or agencies with straightforward supplier spreadsheets. The 20-row pilot gives us a concrete, limited way to confirm the service is useful.</p><ul class="included"><li>20 straightforward product rows</li><li>Review spreadsheet + issue and change logs</li><li>One agreed-scope revision</li><li>Buyer-approved formatting/mapping only</li></ul></div>
+        <div><div class="price">C$125 <small>fixed-scope starting offer</small></div><p>Project acceptance, final deliverables and delivery date must be agreed in writing. Complex variants, live imports, image work and integrations are not included. Agency terms quoted separately.</p><a class="btn" href="https://tally.so/r/DqpKGX" target="_blank" rel="noopener noreferrer">Ask if your sheet fits ↗</a></div>
+      </div>
+    </div>
+  </section>
+</main>
+<footer>
+  <div class="wrap footerline"><span>© 2026 FlowGrove · Montréal, Canada · Fictional demonstration</span><span><a href="https://flowgrove.carrd.co/">Main website</a> · <a href="mailto:flowgrove.mtl@gmail.com">Contact</a></span></div>
+</footer>
+<script>
+const before=[
+["CB-101","Ceramic  Mug | Blue","Mugs","22.00","review","Extra spacing in title"],
+["CB-102","Ceramic Mug - blue","mug","22.00","review","Category convention differs"],
+["BL-204","linen napkin set","Homeware","28.00","review","Identifier used twice"],
+["BL-204","Linen Napkin Set","Homewares","28.00","review","Identifier used twice"],
+["VA-008","Glass Bud Vase","","16.00","review","Missing category"],
+["CT-300","Taper Candle 2 Pack","Candles","12.00","clean","No issue detected"]
+];
+const after=[
+["CB-101","Ceramic Mug | Blue","Mugs","22.00","clean","Spacing normalized (fictional approval)"],
+["CB-102","Ceramic Mug - blue","Mugs","22.00","clean","Category standardized (fictional approval)"],
+["BL-204","Linen Napkin Set","Homeware","28.00","review","Duplicate identifier: buyer decision required"],
+["BL-204","Linen Napkin Set","Homeware","28.00","review","Identifier still duplicated; no merge"],
+["VA-008","Glass Bud Vase","","16.00","review","Category remains missing"],
+["CT-300","Taper Candle 2 Pack","Candles","12.00","clean","Unchanged"]
+];
+const tbody=document.getElementById("rows");
+function render(mode){
+ const reviewed=mode==="after", dataset=reviewed?after:before;
+ tbody.replaceChildren();
+ for(const item of dataset){
+  const tr=document.createElement("tr");
+  for(const value of item.slice(0,4)){
+   const td=document.createElement("td");td.textContent=value||"—";if(!value)td.className="muted";tr.appendChild(td);
+  }
+  const td=document.createElement("td");const status=document.createElement("span");status.className="flag "+item[4];status.textContent=item[5];td.appendChild(status);tr.appendChild(td);tbody.appendChild(tr);
+ }
+ document.getElementById("beforeTab").setAttribute("aria-selected",String(!reviewed));
+ document.getElementById("afterTab").setAttribute("aria-selected",String(reviewed));
+ document.getElementById("viewtitle").textContent=reviewed?"Review sheet — approval-controlled":"Supplier file — before review";
+ document.getElementById("viewdesc").textContent=reviewed?"Only fictional, explicitly approved rules were applied. Uncertain records remain flagged.":"Unchanged, fictional input values. Problem records are flagged.";
+ document.getElementById("viewnote").textContent=reviewed?"Notice: duplicate SKUs still appear twice on purpose. We flag ambiguity rather than silently deleting data.":"Note: different SKUs are not duplicates just because their titles resemble each other.";
+}
+document.getElementById("beforeTab").addEventListener("click",()=>render("before"));
+document.getElementById("afterTab").addEventListener("click",()=>render("after"));
+document.querySelectorAll('[role="tab"]').forEach(tab=>tab.addEventListener("keydown",e=>{if(e.key==="ArrowLeft"||e.key==="ArrowRight"){e.preventDefault();const next=tab.id==="beforeTab"?document.getElementById("afterTab"):document.getElementById("beforeTab");next.focus();next.click();}}));
+render("before");
+</script>
+</body>
+</html>
