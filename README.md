@@ -2,6 +2,8 @@
 
 **An interactive demonstration of a small, review-only Excel/CSV product-data quality audit.**
 
+**[🌱 Open the live interactive FlowGrove demo](https://gcodefuturek.github.io/flowgrove-catalogue-qa-demo/)**
+
 This repository contains **fictional product records only**. It does not represent previous client work or verified commercial outcomes.
 
 ## What you can explore
